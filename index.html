@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multi-App Dashboard</title>
+    <title>Application Dashboard</title>
     <style>
         * {
             margin: 0;
@@ -25,7 +25,6 @@
             padding: 20px;
             text-align: center;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            z-index: 10;
         }
         
         .header h1 {
@@ -42,95 +41,65 @@
             opacity: 0.9;
         }
         
-        .container {
-            display: flex;
+        .main-content {
             flex: 1;
             padding: 20px;
-            gap: 20px;
-        }
-        
-        .sidebar {
-            width: 280px;
-            background-color: rgba(0, 0, 0, 0.7);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-        }
-        
-        .sidebar h2 {
-            margin-bottom: 20px;
-            text-align: center;
-            color: #fdbb2d;
-            border-bottom: 1px solid rgba(253, 187, 45, 0.3);
-            padding-bottom: 10px;
-        }
-        
-        .nav-links {
-            list-style: none;
-        }
-        
-        .nav-links li {
-            margin-bottom: 12px;
-        }
-        
-        .nav-links a {
             display: flex;
+            justify-content: center;
             align-items: center;
-            gap: 10px;
-            padding: 12px 15px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            text-decoration: none;
-            color: white;
-            transition: all 0.3s ease;
-            border-left: 4px solid transparent;
         }
         
-        .nav-links a:hover {
-            background-color: rgba(253, 187, 45, 0.2);
-            border-left: 4px solid #fdbb2d;
-            transform: translateX(5px);
-        }
-        
-        .nav-links a.active {
-            background-color: rgba(253, 187, 45, 0.3);
-            border-left: 4px solid #fdbb2d;
-        }
-        
-        .nav-icon {
-            font-size: 1.2rem;
-        }
-        
-        .content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        
-        .card {
+        .app-container {
+            width: 100%;
+            max-width: 1200px;
             background-color: rgba(0, 0, 0, 0.7);
             border-radius: 12px;
             padding: 20px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
         
-        .card h2 {
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .app-header h2 {
             color: #fdbb2d;
             display: flex;
             align-items: center;
             gap: 10px;
         }
         
-        .card h2 i {
+        .app-header h2 i {
             font-size: 1.5rem;
+        }
+        
+        .fullscreen-btn {
+            background-color: rgba(253, 187, 45, 0.8);
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+        }
+        
+        .fullscreen-btn:hover {
+            background-color: rgba(253, 187, 45, 1);
         }
         
         .iframe-container {
             position: relative;
             width: 100%;
-            height: 600px;
+            height: 70vh;
             border-radius: 8px;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -142,27 +111,6 @@
             border: none;
         }
         
-        .fullscreen-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            z-index: 5;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .fullscreen-btn:hover {
-            background-color: rgba(253, 187, 45, 0.8);
-        }
-        
         .footer {
             background-color: rgba(0, 0, 0, 0.7);
             padding: 15px;
@@ -171,167 +119,67 @@
         }
         
         @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-            }
-            
-            .sidebar {
-                width: 100%;
+            .header h1 {
+                font-size: 2rem;
             }
             
             .iframe-container {
-                height: 400px;
+                height: 60vh;
+            }
+            
+            .app-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
             }
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>Multi-App Dashboard</h1>
-        <p>Access all your Google Apps Script applications in one place</p>
+        <h1>Application Dashboard</h1>
+        <p>Your centralized application interface</p>
     </div>
     
-    <div class="container">
-        <div class="sidebar">
-            <h2>Navigation</h2>
-            <ul class="nav-links">
-                <li><a href="#" class="active" data-target="original">
-                    <span class="nav-icon">📊</span> Original App
-                </a></li>
-                <li><a href="#" data-target="reports">
-                    <span class="nav-icon">📈</span> Reports
-                </a></li>
-                <li><a href="#" data-target="mobile-entry">
-                    <span class="nav-icon">📱</span> Mobile Entry
-                </a></li>
-                <li><a href="#" data-target="app4">
-                    <span class="nav-icon">🔧</span> Application 4
-                </a></li>
-                <li><a href="#" data-target="app5">
-                    <span class="nav-icon">⚙️</span> Application 5
-                </a></li>
-            </ul>
-        </div>
-        
-        <div class="content">
-            <div class="card" id="original-card">
-                <h2><i>📊</i> Original Application</h2>
-                <div class="iframe-container">
-                    <iframe 
-                        src="https://script.google.com/macros/s/AKfycbxOLIwm4F3MiP6sRa315PCiphobVAAdun5FTY0Y0CMORYzbebRZiZWKVvI9MqehWxVI/exec"
-                        id="original-iframe">
-                    </iframe>
-                    <button class="fullscreen-btn" data-iframe="original-iframe">
-                        <span>⛶</span> Fullscreen
-                    </button>
-                </div>
+    <div class="main-content">
+        <div class="app-container">
+            <div class="app-header">
+                <h2><i>📊</i> Main Application</h2>
+                <button class="fullscreen-btn" id="fullscreen-toggle">
+                    <span>⛶</span> Fullscreen
+                </button>
             </div>
-            
-            <div class="card" id="reports-card" style="display: none;">
-                <h2><i>📈</i> Reports</h2>
-                <div class="iframe-container">
-                    <iframe 
-                        src="https://script.google.com/macros/s/AKfycbxOLIwm4F3MiP6sRa315PCiphobVAAdun5FTY0Y0CMORYzbebRZiZWKVvI9MqehWxVI/exec?page=reports"
-                        id="reports-iframe">
-                    </iframe>
-                    <button class="fullscreen-btn" data-iframe="reports-iframe">
-                        <span>⛶</span> Fullscreen
-                    </button>
-                </div>
-            </div>
-            
-            <div class="card" id="mobile-entry-card" style="display: none;">
-                <h2><i>📱</i> Mobile Entry</h2>
-                <div class="iframe-container">
-                    <iframe 
-                        src="https://script.google.com/macros/s/AKfycbxWHdaufeDfeP0k7tzJb3spgoE8JbfUnZf7vTKde3hn5Wt6VHJfRvfumiV7tzrCCLMT/exec"
-                        id="mobile-entry-iframe">
-                    </iframe>
-                    <button class="fullscreen-btn" data-iframe="mobile-entry-iframe">
-                        <span>⛶</span> Fullscreen
-                    </button>
-                </div>
-            </div>
-            
-            <div class="card" id="app4-card" style="display: none;">
-                <h2><i>🔧</i> Application 4</h2>
-                <div class="iframe-container">
-                    <iframe 
-                        src="https://script.google.com/macros/s/AKfycbxOLIwm4F3MiP6sRa315PCiphobVAAdun5FTY0Y0CMORYzbebRZiZWKVvI9MqehWxVI/exec?page=app4"
-                        id="app4-iframe">
-                    </iframe>
-                    <button class="fullscreen-btn" data-iframe="app4-iframe">
-                        <span>⛶</span> Fullscreen
-                    </button>
-                </div>
-            </div>
-            
-            <div class="card" id="app5-card" style="display: none;">
-                <h2><i>⚙️</i> Application 5</h2>
-                <div class="iframe-container">
-                    <iframe 
-                        src="https://script.google.com/macros/s/AKfycbxOLIwm4F3MiP6sRa315PCiphobVAAdun5FTY0Y0CMORYzbebRZiZWKVvI9MqehWxVI/exec?page=app5"
-                        id="app5-iframe">
-                    </iframe>
-                    <button class="fullscreen-btn" data-iframe="app5-iframe">
-                        <span>⛶</span> Fullscreen
-                    </button>
-                </div>
+            <div class="iframe-container">
+                <iframe 
+                    src="https://script.google.com/macros/s/AKfycbxOLIwm4F3MiP6sRa315PCiphobVAAdun5FTY0Y0CMORYzbebRZiZWKVvI9MqehWxVI/exec"
+                    id="main-iframe">
+                </iframe>
             </div>
         </div>
     </div>
     
     <div class="footer">
-        <p>Multi-App Dashboard &copy; 2023</p>
+        <p>Application Dashboard &copy; 2023</p>
     </div>
 
     <script>
-        // Navigation functionality
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Update active link
-                document.querySelectorAll('.nav-links a').forEach(a => {
-                    a.classList.remove('active');
-                });
-                this.classList.add('active');
-                
-                // Show/hide cards
-                const target = this.getAttribute('data-target');
-                document.getElementById('original-card').style.display = 
-                    target === 'original' ? 'block' : 'none';
-                document.getElementById('reports-card').style.display = 
-                    target === 'reports' ? 'block' : 'none';
-                document.getElementById('mobile-entry-card').style.display = 
-                    target === 'mobile-entry' ? 'block' : 'none';
-                document.getElementById('app4-card').style.display = 
-                    target === 'app4' ? 'block' : 'none';
-                document.getElementById('app5-card').style.display = 
-                    target === 'app5' ? 'block' : 'none';
-            });
-        });
-        
         // Fullscreen functionality
-        document.querySelectorAll('.fullscreen-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const iframeId = this.getAttribute('data-iframe');
-                const iframe = document.getElementById(iframeId);
-                
-                if (iframe.requestFullscreen) {
-                    iframe.requestFullscreen();
-                } else if (iframe.webkitRequestFullscreen) {
-                    iframe.webkitRequestFullscreen();
-                } else if (iframe.msRequestFullscreen) {
-                    iframe.msRequestFullscreen();
-                }
-            });
+        const fullscreenToggle = document.getElementById('fullscreen-toggle');
+        const mainIframe = document.getElementById('main-iframe');
+        
+        fullscreenToggle.addEventListener('click', function() {
+            if (mainIframe.requestFullscreen) {
+                mainIframe.requestFullscreen();
+            } else if (mainIframe.webkitRequestFullscreen) {
+                mainIframe.webkitRequestFullscreen();
+            } else if (mainIframe.msRequestFullscreen) {
+                mainIframe.msRequestFullscreen();
+            }
         });
         
-        // Auto fullscreen on page load (for original app by default)
+        // Auto fullscreen on page load
         window.onload = function() {
-            document.getElementById('original-iframe')
-                .requestFullscreen()
+            mainIframe.requestFullscreen()
                 .catch((err) => {
                     console.error('Error attempting to enable full-screen mode:', err.message);
                 });
