@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Embedded Content Dashboard</title>
+    <title>Multi-App Dashboard</title>
     <style>
         * {
             margin: 0;
@@ -50,7 +50,7 @@
         }
         
         .sidebar {
-            width: 250px;
+            width: 280px;
             background-color: rgba(0, 0, 0, 0.7);
             border-radius: 12px;
             padding: 20px;
@@ -70,11 +70,13 @@
         }
         
         .nav-links li {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
         
         .nav-links a {
-            display: block;
+            display: flex;
+            align-items: center;
+            gap: 10px;
             padding: 12px 15px;
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 8px;
@@ -93,6 +95,10 @@
         .nav-links a.active {
             background-color: rgba(253, 187, 45, 0.3);
             border-left: 4px solid #fdbb2d;
+        }
+        
+        .nav-icon {
+            font-size: 1.2rem;
         }
         
         .content {
@@ -148,6 +154,9 @@
             cursor: pointer;
             transition: background-color 0.3s;
             z-index: 5;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
         
         .fullscreen-btn:hover {
@@ -178,28 +187,56 @@
 </head>
 <body>
     <div class="header">
-        <h1>Embedded Content Dashboard</h1>
-        <p>Access Reports and Mobile Entry forms in one place</p>
+        <h1>Multi-App Dashboard</h1>
+        <p>Access all your Google Apps Script applications in one place</p>
     </div>
     
     <div class="container">
         <div class="sidebar">
             <h2>Navigation</h2>
             <ul class="nav-links">
-                <li><a href="#" class="active" data-target="reports">Reports</a></li>
-                <li><a href="#" data-target="mobile-entry">Mobile Entry</a></li>
+                <li><a href="#" class="active" data-target="original">
+                    <span class="nav-icon">📊</span> Original App
+                </a></li>
+                <li><a href="#" data-target="reports">
+                    <span class="nav-icon">📈</span> Reports
+                </a></li>
+                <li><a href="#" data-target="mobile-entry">
+                    <span class="nav-icon">📱</span> Mobile Entry
+                </a></li>
+                <li><a href="#" data-target="app4">
+                    <span class="nav-icon">🔧</span> Application 4
+                </a></li>
+                <li><a href="#" data-target="app5">
+                    <span class="nav-icon">⚙️</span> Application 5
+                </a></li>
             </ul>
         </div>
         
         <div class="content">
-            <div class="card" id="reports-card">
-                <h2><i>📊</i> Reports</h2>
+            <div class="card" id="original-card">
+                <h2><i>📊</i> Original Application</h2>
+                <div class="iframe-container">
+                    <iframe 
+                        src="https://script.google.com/macros/s/AKfycbxOLIwm4F3MiP6sRa315PCiphobVAAdun5FTY0Y0CMORYzbebRZiZWKVvI9MqehWxVI/exec"
+                        id="original-iframe">
+                    </iframe>
+                    <button class="fullscreen-btn" data-iframe="original-iframe">
+                        <span>⛶</span> Fullscreen
+                    </button>
+                </div>
+            </div>
+            
+            <div class="card" id="reports-card" style="display: none;">
+                <h2><i>📈</i> Reports</h2>
                 <div class="iframe-container">
                     <iframe 
                         src="https://script.google.com/macros/s/AKfycbxOLIwm4F3MiP6sRa315PCiphobVAAdun5FTY0Y0CMORYzbebRZiZWKVvI9MqehWxVI/exec?page=reports"
                         id="reports-iframe">
                     </iframe>
-                    <button class="fullscreen-btn" data-iframe="reports-iframe">Fullscreen</button>
+                    <button class="fullscreen-btn" data-iframe="reports-iframe">
+                        <span>⛶</span> Fullscreen
+                    </button>
                 </div>
             </div>
             
@@ -210,14 +247,42 @@
                         src="https://script.google.com/macros/s/AKfycbxWHdaufeDfeP0k7tzJb3spgoE8JbfUnZf7vTKde3hn5Wt6VHJfRvfumiV7tzrCCLMT/exec"
                         id="mobile-entry-iframe">
                     </iframe>
-                    <button class="fullscreen-btn" data-iframe="mobile-entry-iframe">Fullscreen</button>
+                    <button class="fullscreen-btn" data-iframe="mobile-entry-iframe">
+                        <span>⛶</span> Fullscreen
+                    </button>
+                </div>
+            </div>
+            
+            <div class="card" id="app4-card" style="display: none;">
+                <h2><i>🔧</i> Application 4</h2>
+                <div class="iframe-container">
+                    <iframe 
+                        src="https://script.google.com/macros/s/AKfycbxOLIwm4F3MiP6sRa315PCiphobVAAdun5FTY0Y0CMORYzbebRZiZWKVvI9MqehWxVI/exec?page=app4"
+                        id="app4-iframe">
+                    </iframe>
+                    <button class="fullscreen-btn" data-iframe="app4-iframe">
+                        <span>⛶</span> Fullscreen
+                    </button>
+                </div>
+            </div>
+            
+            <div class="card" id="app5-card" style="display: none;">
+                <h2><i>⚙️</i> Application 5</h2>
+                <div class="iframe-container">
+                    <iframe 
+                        src="https://script.google.com/macros/s/AKfycbxOLIwm4F3MiP6sRa315PCiphobVAAdun5FTY0Y0CMORYzbebRZiZWKVvI9MqehWxVI/exec?page=app5"
+                        id="app5-iframe">
+                    </iframe>
+                    <button class="fullscreen-btn" data-iframe="app5-iframe">
+                        <span>⛶</span> Fullscreen
+                    </button>
                 </div>
             </div>
         </div>
     </div>
     
     <div class="footer">
-        <p>Embedded Content Dashboard &copy; 2023</p>
+        <p>Multi-App Dashboard &copy; 2023</p>
     </div>
 
     <script>
@@ -234,10 +299,16 @@
                 
                 // Show/hide cards
                 const target = this.getAttribute('data-target');
+                document.getElementById('original-card').style.display = 
+                    target === 'original' ? 'block' : 'none';
                 document.getElementById('reports-card').style.display = 
                     target === 'reports' ? 'block' : 'none';
                 document.getElementById('mobile-entry-card').style.display = 
                     target === 'mobile-entry' ? 'block' : 'none';
+                document.getElementById('app4-card').style.display = 
+                    target === 'app4' ? 'block' : 'none';
+                document.getElementById('app5-card').style.display = 
+                    target === 'app5' ? 'block' : 'none';
             });
         });
         
@@ -257,9 +328,9 @@
             });
         });
         
-        // Auto fullscreen on page load (for reports by default)
+        // Auto fullscreen on page load (for original app by default)
         window.onload = function() {
-            document.getElementById('reports-iframe')
+            document.getElementById('original-iframe')
                 .requestFullscreen()
                 .catch((err) => {
                     console.error('Error attempting to enable full-screen mode:', err.message);
