@@ -4,35 +4,68 @@
   <title>Embedded Content</title>
 
   <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Floating menu container */
     #floatingMenu {
       position: fixed;
       top: 15px;
       left: 15px;
       z-index: 9999;
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       gap: 10px;
+      padding: 10px 12px;
+      background: rgba(0, 0, 0, 0.55);
+      border-radius: 14px;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
       opacity: 1;
       transition: opacity 0.5s ease;
-      font-family: system-ui, sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .menu-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .group-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #f0f0f0;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      opacity: 0.9;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
     }
 
     .menu-btn {
-      padding: 9px 16px;
-      font-size: 14px;
+      padding: 6px 10px;
+      font-size: 13px;
       border: none;
       background: #0078FF;
       color: white;
       border-radius: 999px;
       cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-      transition: background 0.2s ease, transform 0.2s ease;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.35);
+      transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
       white-space: nowrap;
     }
 
     .menu-btn:hover {
       background: #005FCC;
-      transform: scale(1.05);
+      transform: translateY(-1px) scale(1.03);
+      box-shadow: 0 5px 14px rgba(0,0,0,0.40);
     }
 
     .hiddenMenu {
@@ -43,20 +76,30 @@
 </head>
 <body>
 
-  <!-- Floating Menu Buttons -->
+  <!-- Floating grouped menu -->
   <div id="floatingMenu">
-    <!-- System 1 -->
-    <button class="menu-btn" onclick="loadPage('main')">Main Form</button>
-    <button class="menu-btn" onclick="loadPage('reports')">Reports</button>
-    <button class="menu-btn" onclick="loadPage('dashboard')">Dashboard</button>
+    <!-- System 1 group -->
+    <div class="menu-group">
+      <div class="group-title">System 1</div>
+      <div class="btn-row">
+        <button class="menu-btn" onclick="loadPage('main')">Main Form</button>
+        <button class="menu-btn" onclick="loadPage('reports')">Reports</button>
+        <button class="menu-btn" onclick="loadPage('dashboard')">Admin Dashboard</button>
+      </div>
+    </div>
 
-    <!-- System 2 -->
-    <button class="menu-btn" onclick="loadPage('s2_mobile')">S2: Mobile Form</button>
-    <button class="menu-btn" onclick="loadPage('s2_reports')">S2: Reports</button>
-    <button class="menu-btn" onclick="loadPage('s2_admin')">S2: Admin Dashboard</button>
+    <!-- System 2 group (last link) -->
+    <div class="menu-group">
+      <div class="group-title">System 2</div>
+      <div class="btn-row">
+        <button class="menu-btn" onclick="loadPage('s2_mobile')">Mobile Form</button>
+        <button class="menu-btn" onclick="loadPage('s2_reports')">Reports</button>
+        <button class="menu-btn" onclick="loadPage('s2_dashboard')">Admin Dashboard</button>
+      </div>
+    </div>
   </div>
 
-  <!-- Main iframe -->
+  <!-- Fullscreen iframe -->
   <iframe 
     id="mainFrame"
     src="https://script.google.com/macros/s/AKfycbxOLIwm4F3MiP6sRa315PCiphobVAAdun5FTY0Y0CMORYzbebRZiZWKVvI9MqehWxVI/exec"
@@ -74,15 +117,31 @@
     function loadPage(page) {
       const frame = document.getElementById("mainFrame");
 
-      switch(page) {
-        case 'reports': frame.src = BASE_URL + "?page=reports"; break;
-        case 'dashboard': frame.src = BASE_URL + "?page=dashboard"; break;
+      switch (page) {
+        // System 1
+        case "reports":
+          frame.src = BASE_URL + "?page=reports";
+          break;
+        case "dashboard":
+          frame.src = BASE_URL + "?page=dashboard";
+          break;
+        case "main":
+          frame.src = BASE_URL;
+          break;
 
-        case 's2_mobile': frame.src = SYSTEM2_URL + "?page=mobileform"; break;
-        case 's2_reports': frame.src = SYSTEM2_URL + "?page=reports"; break;
-        case 's2_admin': frame.src = SYSTEM2_URL + "?page=admin"; break;
+        // System 2 (last link)
+        case "s2_mobile":
+          frame.src = SYSTEM2_URL; // Mobile Form (base)
+          break;
+        case "s2_reports":
+          frame.src = SYSTEM2_URL + "?page=reports";
+          break;
+        case "s2_dashboard":
+          frame.src = SYSTEM2_URL + "?page=dashboard";
+          break;
 
-        default: frame.src = BASE_URL;
+        default:
+          frame.src = BASE_URL;
       }
     }
 
@@ -90,7 +149,9 @@
     window.onload = function () {
       document.querySelector("iframe")
         .requestFullscreen()
-        .catch(() => {});
+        .catch((err) => {
+          console.warn("Fullscreen blocked:", err.message);
+        });
     };
 
     // Auto-hide floating menu
@@ -102,12 +163,13 @@
       clearTimeout(hideTimer);
       hideTimer = setTimeout(() => {
         menu.classList.add("hiddenMenu");
-      }, 2500);
+      }, 2500); // 2.5 seconds
     }
 
     window.addEventListener("mousemove", resetHideTimer);
     window.addEventListener("touchstart", resetHideTimer);
 
+    // Start countdown
     resetHideTimer();
   </script>
 
