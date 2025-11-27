@@ -1,177 +1,270 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Embedded Content</title>
-
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-    }
-
-    /* Floating menu container */
-    #floatingMenu {
-      position: fixed;
-      top: 15px;
-      left: 15px;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      padding: 10px 12px;
-      background: rgba(0, 0, 0, 0.55);
-      border-radius: 14px;
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      opacity: 1;
-      transition: opacity 0.5s ease;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-
-    .menu-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .group-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: #f0f0f0;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      opacity: 0.9;
-    }
-
-    .btn-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .menu-btn {
-      padding: 6px 10px;
-      font-size: 13px;
-      border: none;
-      background: #0078FF;
-      color: white;
-      border-radius: 999px;
-      cursor: pointer;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.35);
-      transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
-      white-space: nowrap;
-    }
-
-    .menu-btn:hover {
-      background: #005FCC;
-      transform: translateY(-1px) scale(1.03);
-      box-shadow: 0 5px 14px rgba(0,0,0,0.40);
-    }
-
-    .hiddenMenu {
-      opacity: 0;
-      pointer-events: none;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embedded Content Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #fdbb2d, #b21f1f);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            display: flex;
+            flex: 1;
+            padding: 20px;
+            gap: 20px;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .sidebar h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #fdbb2d;
+            border-bottom: 1px solid rgba(253, 187, 45, 0.3);
+            padding-bottom: 10px;
+        }
+        
+        .nav-links {
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-bottom: 15px;
+        }
+        
+        .nav-links a {
+            display: block;
+            padding: 12px 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        
+        .nav-links a:hover {
+            background-color: rgba(253, 187, 45, 0.2);
+            border-left: 4px solid #fdbb2d;
+            transform: translateX(5px);
+        }
+        
+        .nav-links a.active {
+            background-color: rgba(253, 187, 45, 0.3);
+            border-left: 4px solid #fdbb2d;
+        }
+        
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .card {
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card h2 {
+            margin-bottom: 15px;
+            color: #fdbb2d;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card h2 i {
+            font-size: 1.5rem;
+        }
+        
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .fullscreen-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            z-index: 5;
+        }
+        
+        .fullscreen-btn:hover {
+            background-color: rgba(253, 187, 45, 0.8);
+        }
+        
+        .footer {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            text-align: center;
+            margin-top: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+            
+            .iframe-container {
+                height: 400px;
+            }
+        }
+    </style>
 </head>
 <body>
-
-  <!-- Floating grouped menu -->
-  <div id="floatingMenu">
-    <!-- System 1 group -->
-    <div class="menu-group">
-      <div class="group-title">System 1</div>
-      <div class="btn-row">
-        <button class="menu-btn" onclick="loadPage('main')">Main Form</button>
-        <button class="menu-btn" onclick="loadPage('reports')">Reports</button>
-        <button class="menu-btn" onclick="loadPage('dashboard')">Admin Dashboard</button>
-      </div>
+    <div class="header">
+        <h1>Embedded Content Dashboard</h1>
+        <p>Access Reports and Mobile Entry forms in one place</p>
+    </div>
+    
+    <div class="container">
+        <div class="sidebar">
+            <h2>Navigation</h2>
+            <ul class="nav-links">
+                <li><a href="#" class="active" data-target="reports">Reports</a></li>
+                <li><a href="#" data-target="mobile-entry">Mobile Entry</a></li>
+            </ul>
+        </div>
+        
+        <div class="content">
+            <div class="card" id="reports-card">
+                <h2><i>📊</i> Reports</h2>
+                <div class="iframe-container">
+                    <iframe 
+                        src="https://script.google.com/macros/s/AKfycbxOLIwm4F3MiP6sRa315PCiphobVAAdun5FTY0Y0CMORYzbebRZiZWKVvI9MqehWxVI/exec?page=reports"
+                        id="reports-iframe">
+                    </iframe>
+                    <button class="fullscreen-btn" data-iframe="reports-iframe">Fullscreen</button>
+                </div>
+            </div>
+            
+            <div class="card" id="mobile-entry-card" style="display: none;">
+                <h2><i>📱</i> Mobile Entry</h2>
+                <div class="iframe-container">
+                    <iframe 
+                        src="https://script.google.com/macros/s/AKfycbxWHdaufeDfeP0k7tzJb3spgoE8JbfUnZf7vTKde3hn5Wt6VHJfRvfumiV7tzrCCLMT/exec"
+                        id="mobile-entry-iframe">
+                    </iframe>
+                    <button class="fullscreen-btn" data-iframe="mobile-entry-iframe">Fullscreen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>Embedded Content Dashboard &copy; 2023</p>
     </div>
 
-    <!-- System 2 group (last link) -->
-    <div class="menu-group">
-      <div class="group-title">System 2</div>
-      <div class="btn-row">
-        <button class="menu-btn" onclick="loadPage('s2_mobile')">Mobile Form</button>
-        <button class="menu-btn" onclick="loadPage('s2_reports')">Reports</button>
-        <button class="menu-btn" onclick="loadPage('s2_dashboard')">Admin Dashboard</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Fullscreen iframe -->
-  <iframe 
-    id="mainFrame"
-    src="https://script.google.com/macros/s/AKfycbxOLIwm4F3MiP6sRa315PCiphobVAAdun5FTY0Y0CMORYzbebRZiZWKVvI9MqehWxVI/exec"
-    allowfullscreen="true"
-    style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none;">
-  </iframe>
-
-  <script>
-    const BASE_URL =
-      "https://script.google.com/macros/s/AKfycbxOLIwm4F3MiP6sRa315PCiphobVAAdun5FTY0Y0CMORYzbebRZiZWKVvI9MqehWxVI/exec";
-
-    const SYSTEM2_URL =
-      "https://script.google.com/macros/s/AKfycbxWHdaufeDfeP0k7tzJb3spgoE8JbfUnZf7vTKde3hn5Wt6VHJfRvfumiV7tzrCCLMT/exec";
-
-    function loadPage(page) {
-      const frame = document.getElementById("mainFrame");
-
-      switch (page) {
-        // System 1
-        case "reports":
-          frame.src = BASE_URL + "?page=reports";
-          break;
-        case "dashboard":
-          frame.src = BASE_URL + "?page=dashboard";
-          break;
-        case "main":
-          frame.src = BASE_URL;
-          break;
-
-        // System 2 (last link)
-        case "s2_mobile":
-          frame.src = SYSTEM2_URL; // Mobile Form (base)
-          break;
-        case "s2_reports":
-          frame.src = SYSTEM2_URL + "?page=reports";
-          break;
-        case "s2_dashboard":
-          frame.src = SYSTEM2_URL + "?page=dashboard";
-          break;
-
-        default:
-          frame.src = BASE_URL;
-      }
-    }
-
-    // Auto fullscreen
-    window.onload = function () {
-      document.querySelector("iframe")
-        .requestFullscreen()
-        .catch((err) => {
-          console.warn("Fullscreen blocked:", err.message);
+    <script>
+        // Navigation functionality
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Update active link
+                document.querySelectorAll('.nav-links a').forEach(a => {
+                    a.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Show/hide cards
+                const target = this.getAttribute('data-target');
+                document.getElementById('reports-card').style.display = 
+                    target === 'reports' ? 'block' : 'none';
+                document.getElementById('mobile-entry-card').style.display = 
+                    target === 'mobile-entry' ? 'block' : 'none';
+            });
         });
-    };
-
-    // Auto-hide floating menu
-    let hideTimer;
-    const menu = document.getElementById("floatingMenu");
-
-    function resetHideTimer() {
-      menu.classList.remove("hiddenMenu");
-      clearTimeout(hideTimer);
-      hideTimer = setTimeout(() => {
-        menu.classList.add("hiddenMenu");
-      }, 2500); // 2.5 seconds
-    }
-
-    window.addEventListener("mousemove", resetHideTimer);
-    window.addEventListener("touchstart", resetHideTimer);
-
-    // Start countdown
-    resetHideTimer();
-  </script>
-
+        
+        // Fullscreen functionality
+        document.querySelectorAll('.fullscreen-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const iframeId = this.getAttribute('data-iframe');
+                const iframe = document.getElementById(iframeId);
+                
+                if (iframe.requestFullscreen) {
+                    iframe.requestFullscreen();
+                } else if (iframe.webkitRequestFullscreen) {
+                    iframe.webkitRequestFullscreen();
+                } else if (iframe.msRequestFullscreen) {
+                    iframe.msRequestFullscreen();
+                }
+            });
+        });
+        
+        // Auto fullscreen on page load (for reports by default)
+        window.onload = function() {
+            document.getElementById('reports-iframe')
+                .requestFullscreen()
+                .catch((err) => {
+                    console.error('Error attempting to enable full-screen mode:', err.message);
+                });
+        };
+    </script>
 </body>
 </html>
