@@ -2,24 +2,114 @@
 <html>
 <head>
   <title>Embedded Content</title>
+
+  <style>
+    #floatingMenu {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      z-index: 9999;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      opacity: 1;
+      transition: opacity 0.5s ease;
+      font-family: system-ui, sans-serif;
+    }
+
+    .menu-btn {
+      padding: 9px 16px;
+      font-size: 14px;
+      border: none;
+      background: #0078FF;
+      color: white;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+      transition: background 0.2s ease, transform 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .menu-btn:hover {
+      background: #005FCC;
+      transform: scale(1.05);
+    }
+
+    .hiddenMenu {
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
 </head>
 <body>
+
+  <!-- Floating Menu Buttons -->
+  <div id="floatingMenu">
+    <!-- System 1 -->
+    <button class="menu-btn" onclick="loadPage('main')">Main Form</button>
+    <button class="menu-btn" onclick="loadPage('reports')">Reports</button>
+    <button class="menu-btn" onclick="loadPage('dashboard')">Dashboard</button>
+
+    <!-- System 2 -->
+    <button class="menu-btn" onclick="loadPage('s2_mobile')">S2: Mobile Form</button>
+    <button class="menu-btn" onclick="loadPage('s2_reports')">S2: Reports</button>
+    <button class="menu-btn" onclick="loadPage('s2_admin')">S2: Admin Dashboard</button>
+  </div>
+
+  <!-- Main iframe -->
   <iframe 
+    id="mainFrame"
     src="https://script.google.com/macros/s/AKfycbxOLIwm4F3MiP6sRa315PCiphobVAAdun5FTY0Y0CMORYzbebRZiZWKVvI9MqehWxVI/exec"
-    width="100%"
-    height="100%"
     allowfullscreen="true"
     style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none;">
   </iframe>
 
   <script>
-    window.onload = function() {
-      document.querySelector('iframe')
+    const BASE_URL =
+      "https://script.google.com/macros/s/AKfycbxOLIwm4F3MiP6sRa315PCiphobVAAdun5FTY0Y0CMORYzbebRZiZWKVvI9MqehWxVI/exec";
+
+    const SYSTEM2_URL =
+      "https://script.google.com/macros/s/AKfycbxWHdaufeDfeP0k7tzJb3spgoE8JbfUnZf7vTKde3hn5Wt6VHJfRvfumiV7tzrCCLMT/exec";
+
+    function loadPage(page) {
+      const frame = document.getElementById("mainFrame");
+
+      switch(page) {
+        case 'reports': frame.src = BASE_URL + "?page=reports"; break;
+        case 'dashboard': frame.src = BASE_URL + "?page=dashboard"; break;
+
+        case 's2_mobile': frame.src = SYSTEM2_URL + "?page=mobileform"; break;
+        case 's2_reports': frame.src = SYSTEM2_URL + "?page=reports"; break;
+        case 's2_admin': frame.src = SYSTEM2_URL + "?page=admin"; break;
+
+        default: frame.src = BASE_URL;
+      }
+    }
+
+    // Auto fullscreen
+    window.onload = function () {
+      document.querySelector("iframe")
         .requestFullscreen()
-        .catch((err) => {
-          console.error('Error attempting to enable full-screen mode:', err.message);
-        });
+        .catch(() => {});
     };
+
+    // Auto-hide floating menu
+    let hideTimer;
+    const menu = document.getElementById("floatingMenu");
+
+    function resetHideTimer() {
+      menu.classList.remove("hiddenMenu");
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(() => {
+        menu.classList.add("hiddenMenu");
+      }, 2500);
+    }
+
+    window.addEventListener("mousemove", resetHideTimer);
+    window.addEventListener("touchstart", resetHideTimer);
+
+    resetHideTimer();
   </script>
+
 </body>
 </html>
